@@ -5,8 +5,8 @@ import vtk
 
 class MainWindow(QtWidgets.QMainWindow):
 
-    WINDOW_WIDTH = 1024
-    WINDOW_HEIGHT = 768
+    WINDOW_WIDTH = 800
+    WINDOW_HEIGHT = 600
     VTK_WINDOW_WIDTH = 400
     VTK_WINDOW_HEIGHT = 300
     STL_FILE = "Moon.stl"
@@ -21,6 +21,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show()
 
     def setupUi(self):
+
+        # Groupboxes
         self.grid1 = QtWidgets.QGridLayout()
 
         self.inspectFrame = QtWidgets.QGroupBox()
@@ -31,6 +33,47 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.treeView = QtWidgets.QGroupBox()
         self.treeView.setTitle("Table")
+
+
+        # Input fields
+        self.bookNameField = QtWidgets.QLineEdit()
+        self.bookNameField.setObjectName("statFieldOne")
+
+        self.bookAuthorField = QtWidgets.QLineEdit()
+        self.bookAuthorField.setObjectName("statFieldTwo")
+
+        self.bookPrintDateField = QtWidgets.QLineEdit()
+        self.bookPrintDateField.setObjectName("statFieldThree")
+
+        self.bookCategoryField = QtWidgets.QLineEdit()
+        self.bookCategoryField.setObjectName("statFieldFour")
+
+        self.bookPublisherField = QtWidgets.QLineEdit()
+        self.bookPublisherField.setObjectName("statFieldFive")
+
+        self.bookLanguageField = QtWidgets.QLineEdit()
+        self.bookLanguageField.setObjectName("statFieldSix")
+
+        # Labels
+        self.bookName = QtWidgets.QLabel()
+        self.bookName.setText("Book Name")
+
+        self.bookAuthor =  QtWidgets.QLabel()
+        self.bookAuthor.setText("Book Author")
+
+        self.bookPrintDate = QtWidgets.QLabel()
+        self.bookPrintDate.setText("Book Print Date")
+
+        self.bookCategory = QtWidgets.QLabel()
+        self.bookCategory.setText("Book Category")
+
+        self.bookPublisher = QtWidgets.QLabel()
+        self.bookPublisher.setText("Book Publisher")
+
+        self.bookLanguage = QtWidgets.QLabel()
+        self.bookLanguage.setText("Book Language")
+
+
 
         self.vtkWidget = QVTKRenderWindowInteractor(self.inspectFrame)
         self.vtkWidget.setFixedSize(self.VTK_WINDOW_WIDTH, self.VTK_WINDOW_HEIGHT)
@@ -46,6 +89,29 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grid1.addWidget(self.treeView, 1, 0)
 
 
+        # Placing
+        self.statsFormLayout = QtWidgets.QFormLayout()
+
+        self.statsFormLayout.addRow(self.bookName, self.bookNameField)
+        self.statsFrame.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookAuthor, self.bookAuthorField)
+        self.statsFrame.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookPrintDate, self.bookPrintDateField)
+        self.statsFrame.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookCategory, self.bookCategoryField)
+        self.statsFrame.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookPublisher, self.bookPublisherField)
+        self.statsFrame.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookLanguage, self.bookLanguageField)
+        self.statsFrame.setLayout(self.statsFormLayout)
+
+
+        # Central widget section
         widget = QtWidgets.QWidget()
         widget.setLayout(self.grid1)
         self.setCentralWidget(widget)
@@ -54,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-
+        # Menubar
         self.menubar = self.menuBar()
        
         self.menuFile = QtWidgets.QMenu(self.menubar)
