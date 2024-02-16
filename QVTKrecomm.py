@@ -21,6 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show()
 
     def setupUi(self):
+        self.grid1 = QtWidgets.QGridLayout()
 
         self.inspectFrame = QtWidgets.QGroupBox()
         self.inspectFrame.setTitle("Inspect")
@@ -31,19 +32,26 @@ class MainWindow(QtWidgets.QMainWindow):
         self.treeView = QtWidgets.QGroupBox()
         self.treeView.setTitle("Table")
 
-        self.vertLayout = QtWidgets.QVBoxLayout()
-        self.horizLayout = QtWidgets.QHBoxLayout()
-
         self.vtkWidget = QVTKRenderWindowInteractor(self.inspectFrame)
         self.vtkWidget.setFixedSize(self.VTK_WINDOW_WIDTH, self.VTK_WINDOW_HEIGHT)
 
-        self.vertLayout.addWidget(self.vtkWidget)
-        self.vertLayout.addWidget(self.statsFrame)
-        self.horizLayout.addWidget(self.treeView)
+        self.inspectLayout = QtWidgets.QVBoxLayout()
+        self.inspectLayout.addWidget(self.vtkWidget)
+        self.inspectFrame.setLayout(self.inspectLayout)
 
-        self.inspectFrame.setLayout(self.vertLayout)
-        self.setCentralWidget(self.inspectFrame)
+        self.grid1.addWidget(self.inspectFrame, 0, 0)
+        self.grid1.addWidget(self.statsFrame, 0, 1)
+        self.grid1.addWidget(self.treeView, 1, 0)
+
+        # self.inspectFrame.setLayout(self.grid1)
+        # self.setCentralWidget(self.inspectFrame)
+        widget = QtWidgets.QWidget()
+        widget.setLayout(self.grid1)
+        self.setCentralWidget(widget)
         self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
+
+
+
 
         # self.menubar = QtWidgets.QMenuBar(self)
         self.menubar = self.menuBar()
