@@ -134,18 +134,13 @@ class CentralWidget(QtWidgets.QWidget):
 
     def setupVTK(self):
 
+        reader = vtk.vtkSTLReader()
+        reader.SetFileName(self.STL_FILE)
+
         self.renderer = vtk.vtkRenderer()
 
         self.vtkWidget.GetRenderWindow().AddRenderer(self.renderer)
-
         self.renderWindowInteractor = self.vtkWidget.GetRenderWindow().GetInteractor()
-
-        reader = vtk.vtkSTLReader()
-        try:
-            reader.SetFileName(self.STL_FILE)
-        except IOError:
-            print(f"Error: Could not read file {self.STL_FILE}")
-            return
 
         mapper = vtk.vtkPolyDataMapper()
         mapper.SetInputConnection(reader.GetOutputPort())
