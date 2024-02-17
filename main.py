@@ -9,8 +9,9 @@ class MainWindow(QtWidgets.QMainWindow):
     WINDOW_WIDTH = 800
     WINDOW_HEIGHT = 600
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __init__(self):
+         
+        super().__init__()
 
         self.menuBar = MenuBar(self)
 
