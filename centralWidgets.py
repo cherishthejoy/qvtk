@@ -5,7 +5,6 @@ import vtk
 from vtkCamera import CustomInteractorStyle
 
 class CentralWidget(QtWidgets.QWidget):
-
     
     VTK_WINDOW_WIDTH = 400
     VTK_WINDOW_HEIGHT = 300
@@ -55,7 +54,7 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.grid1.addWidget(self.inspectGroup, 0, 0)
         self.grid1.addWidget(self.statsGroup, 0, 1)
-        self.grid1.addWidget(self.listGroup, 1, 0)
+        self.grid1.addWidget(self.listGroup, 1, 0, 1, 2)
 
 
     def setupInputFields(self):

@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import QFont
 import sys
 
 from menuBar import MenuBar
@@ -8,6 +9,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     WINDOW_WIDTH = 800
     WINDOW_HEIGHT = 600
+    FONT = QFont("Times", 10)
 
     def __init__(self):
          
@@ -17,6 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.centralWidget = CentralWidget(self)
         self.setCentralWidget(self.centralWidget)
+        self.centralWidget.setFont(self.FONT)
 
         self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
 
