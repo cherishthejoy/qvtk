@@ -24,8 +24,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setupUi(self):
 
+        # Menubar
+        self.menuBar = MenuBar(self)
+
+        # Central widget section
+        widget = QtWidgets.QWidget()
+        self.setCentralWidget(widget)
+
         # Groupboxes
         self.grid1 = QtWidgets.QGridLayout()
+        widget.setLayout(self.grid1)
 
         self.inspectFrame = QtWidgets.QGroupBox()
         self.inspectFrame.setTitle("Inspect")
@@ -122,16 +130,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.statsFrame.setLayout(self.statsFormLayout)
 
 
-        # Central widget section
-        widget = QtWidgets.QWidget()
-        widget.setLayout(self.grid1)
-        self.setCentralWidget(widget)
-
         self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
 
-        # Menubar
-        self.menuBar = MenuBar(self)
-
+        
 
 
     def setupVTK(self):
