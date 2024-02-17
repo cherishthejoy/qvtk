@@ -13,28 +13,53 @@ class CentralWidget(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setupUi()
+        self.setupGrids()
+        self.setupGroupBoxes()
+        self.placeVTK()
+        self.placeGroupBoxes()
+        self.setupInputFields()
+        self.setupLabels()
+        self.placeFormLayoutItems()
         self.setupVTK()
-        
 
-    def setupUi(self):
-        
 
-        # Groupboxes
+    def setupGrids(self):
+
         self.grid1 = QtWidgets.QGridLayout()
         self.setLayout(self.grid1)
+        
 
-        self.inspectFrame = QtWidgets.QGroupBox()
-        self.inspectFrame.setTitle("Inspect")
+    def setupGroupBoxes(self):
 
-        self.statsFrame = QtWidgets.QGroupBox()
-        self.statsFrame.setTitle("Stats")
+        self.inspectGroup = QtWidgets.QGroupBox()
+        self.inspectGroup.setTitle("Inspect")
 
-        self.treeView = QtWidgets.QGroupBox()
-        self.treeView.setTitle("Table")
+        self.statsGroup = QtWidgets.QGroupBox()
+        self.statsGroup.setTitle("Stats")
+
+        self.listGroup = QtWidgets.QGroupBox()
+        self.listGroup.setTitle("Table")
 
 
-        # Input fields
+    def placeVTK(self):
+
+        self.vtkWidget = QVTKRenderWindowInteractor(self.inspectGroup)
+        self.vtkWidget.setFixedSize(self.VTK_WINDOW_WIDTH, self.VTK_WINDOW_HEIGHT)
+
+        self.inspectVertLayout = QtWidgets.QVBoxLayout()
+        self.inspectVertLayout.addWidget(self.vtkWidget)
+        self.inspectGroup.setLayout(self.inspectVertLayout)
+
+
+    def placeGroupBoxes(self):
+
+        self.grid1.addWidget(self.inspectGroup, 0, 0)
+        self.grid1.addWidget(self.statsGroup, 0, 1)
+        self.grid1.addWidget(self.listGroup, 1, 0)
+
+
+    def setupInputFields(self):
+
         self.bookNameField = QtWidgets.QLineEdit()
         self.bookNameField.setObjectName("statFieldOne")
 
@@ -56,7 +81,9 @@ class CentralWidget(QtWidgets.QWidget):
         self.bookCoverTypeField = QtWidgets.QLineEdit()
         self.bookCoverTypeField.setObjectName("statFieldSeven")
 
-        # Labels
+
+    def setupLabels(self):
+
         self.bookName = QtWidgets.QLabel()
         self.bookName.setText("Book Name")
 
@@ -78,46 +105,31 @@ class CentralWidget(QtWidgets.QWidget):
         self.bookCoverType = QtWidgets.QLabel()
         self.bookCoverType.setText("Book Cover Type")
 
+        
+    def placeFormLayoutItems(self):
 
-
-        self.vtkWidget = QVTKRenderWindowInteractor(self.inspectFrame)
-        self.vtkWidget.setFixedSize(self.VTK_WINDOW_WIDTH, self.VTK_WINDOW_HEIGHT)
-
-
-        self.inspectLayout = QtWidgets.QVBoxLayout()
-        self.inspectLayout.addWidget(self.vtkWidget)
-        self.inspectFrame.setLayout(self.inspectLayout)
-
-
-        self.grid1.addWidget(self.inspectFrame, 0, 0)
-        self.grid1.addWidget(self.statsFrame, 0, 1)
-        self.grid1.addWidget(self.treeView, 1, 0)
-
-
-        # Placing
         self.statsFormLayout = QtWidgets.QFormLayout()
 
         self.statsFormLayout.addRow(self.bookName, self.bookNameField)
-        self.statsFrame.setLayout(self.statsFormLayout)
+        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookAuthor, self.bookAuthorField)
-        self.statsFrame.setLayout(self.statsFormLayout)
+        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookPrintDate, self.bookPrintDateField)
-        self.statsFrame.setLayout(self.statsFormLayout)
+        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookCategory, self.bookCategoryField)
-        self.statsFrame.setLayout(self.statsFormLayout)
+        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookPublisher, self.bookPublisherField)
-        self.statsFrame.setLayout(self.statsFormLayout)
+        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookLanguage, self.bookLanguageField)
-        self.statsFrame.setLayout(self.statsFormLayout)
+        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookCoverType, self.bookCoverTypeField)
-        self.statsFrame.setLayout(self.statsFormLayout)
-
+        self.statsGroup.setLayout(self.statsFormLayout)
         
 
     def setupVTK(self):

@@ -12,12 +12,12 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
-        
+        self.menuBar = MenuBar(self)
+
         self.centralWidget = CentralWidget(self)
         self.setCentralWidget(self.centralWidget)
 
-        self.menuBar = MenuBar(self)
+        self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
 
 
 if __name__ == "__main__":
