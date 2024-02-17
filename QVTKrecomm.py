@@ -54,6 +54,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.bookLanguageField = QtWidgets.QLineEdit()
         self.bookLanguageField.setObjectName("statFieldSix")
 
+        self.bookCoverTypeField = QtWidgets.QLineEdit()
+        self.bookCoverTypeField.setObjectName("statFieldSeven")
+
         # Labels
         self.bookName = QtWidgets.QLabel()
         self.bookName.setText("Book Name")
@@ -72,6 +75,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.bookLanguage = QtWidgets.QLabel()
         self.bookLanguage.setText("Book Language")
+
+        self.bookCoverType = QtWidgets.QLabel()
+        self.bookCoverType.setText("Book Cover Type")
 
 
 
@@ -108,6 +114,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.statsFrame.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookLanguage, self.bookLanguageField)
+        self.statsFrame.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookCoverType, self.bookCoverTypeField)
         self.statsFrame.setLayout(self.statsFormLayout)
 
 
