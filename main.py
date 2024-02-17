@@ -4,7 +4,7 @@ import vtk
 import sys
 
 from vtkCamera import CustomInteractorStyle
-from menubar import MenuBar
+from menuBar import MenuBar
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -133,11 +133,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
 
         
-
-
     def setupVTK(self):
         self.renderer = vtk.vtkRenderer()
+
         self.vtkWidget.GetRenderWindow().AddRenderer(self.renderer)
+
         self.renderWindowInteractor = self.vtkWidget.GetRenderWindow().GetInteractor()
 
         reader = vtk.vtkSTLReader()
