@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QFontDatabase
 import sys
 
 from menuBar import MenuBar
@@ -10,7 +10,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     WINDOW_WIDTH = 800
     WINDOW_HEIGHT = 600
-    FONT = QFont("Times", 10)
+
 
     def __init__(self):
          
@@ -20,9 +20,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.centralWidget = CentralWidget(self)
         self.setCentralWidget(self.centralWidget)
-        self.centralWidget.setFont(self.FONT)
+        self.setSystemFont()
 
         self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
+
+
+    def setSystemFont(self):
+
+        fontId = QFontDatabase.addApplicationFont("fonts/saxMono.ttf")
+
+        if fontId != -1:
+            fontFamily = QFontDatabase.applicationFontFamilies(fontId)
+            if fontFamily:
+                self.FONT = QFont(fontFamily[0], 11)
+                self.centralWidget.setFont(self.FONT)
+
 
 
 if __name__ == "__main__":
