@@ -27,12 +27,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setSystemFont(self):
 
-        fontId = QFontDatabase.addApplicationFont("fonts/saxMono.ttf")
+        fontId = QFontDatabase.addApplicationFont("fonts/JuliaMono-Regular.ttf")
 
         if fontId != -1:
             fontFamily = QFontDatabase.applicationFontFamilies(fontId)
             if fontFamily:
-                self.FONT = QFont(fontFamily[0], 11)
+                self.FONT = QFont(fontFamily[0], 10)
                 self.centralWidget.setFont(self.FONT)
 
 
