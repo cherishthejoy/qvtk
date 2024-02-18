@@ -5,6 +5,7 @@ import sys
 from menuBar import MenuBar
 from centralWidgets import CentralWidget
 
+
 class MainWindow(QtWidgets.QMainWindow):
 
     WINDOW_WIDTH = 800

@@ -10,9 +10,10 @@ class CentralWidget(QtWidgets.QWidget):
     VTK_WINDOW_HEIGHT = 300
     STL_FILE = "Moon.stl"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super().__init__(parent)
         self.setupGrids()
+        self.setupTabs()
         self.setupGroupBoxes()
         self.placeVTK()
         self.placeGroupBoxes()
@@ -21,6 +22,21 @@ class CentralWidget(QtWidgets.QWidget):
         self.placeFormLayoutItems()
         self.setupVTK()
 
+
+    def setupTabs(self):
+
+        self.PlaceholderLabel1 = QtWidgets.QLabel("This is the 2nd tab!")
+
+        self.gridWidget = QtWidgets.QWidget()
+        self.gridWidget.setLayout(self.grid1)
+
+        self.gridWrapperLayout = QtWidgets.QVBoxLayout(self)
+
+        self.tabWidget = QtWidgets.QTabWidget(self)
+
+        self.gridWrapperLayout.addWidget(self.tabWidget)
+        self.tabWidget.addTab(self.gridWidget, "Inventory")
+        
 
     def setupGrids(self):
 
