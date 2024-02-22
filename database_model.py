@@ -1,4 +1,4 @@
-class Books:
+class Book:
 
     # Didn't use *args because it's usually a positional argument
     def __init__(self, **kwargs):
@@ -18,14 +18,23 @@ class Books:
         self.book_stock = kwargs.get('book_stock')
         self.book_weight = kwargs.get('book_weight')
 
-class Sells:
+class Sale:
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        self.order_number = kwargs.get('order_number')
+        self.product_name = kwargs.get('book_name')
+        self.product_price = kwargs.get('product_price')
+        self.product_amount = kwargs.get('product_amount')
+        self.product_total_price = kwargs.get('product_total_price')
         pass
         
 
 class Report:
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        self.report_date = kwargs.get('report_date')
+        self.sale = kwargs.get('sale')
+
+        self.total_sale = kwargs.get('total_sale')
         pass
         
