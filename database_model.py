@@ -1,8 +1,7 @@
 class Book:
 
-    # Didn't use *args because it's usually a positional argument
     def __init__(self, **kwargs):
-        self.book_id = kwargs.get('book_id') # Primary
+        self.book_id = kwargs.get('book_id')
         self.book_name = kwargs.get('book_name')
         self.book_author = kwargs.get('book_author')
         self.book_published_date = kwargs.get('book_published_date')
@@ -19,34 +18,72 @@ class Book:
         self.book_stock = kwargs.get('book_stock')
         self.book_weight = kwargs.get('book_weight')
 
+    def addBookRecord(self):
+        pass
+
+    def deleteBookRecord(self):
+        pass
+
+    def editBookRecord(self):
+        pass
+
+    def searchBookByName(self):
+        pass
+    
+    def searchBookByAuthor(self):
+        pass
+
+
 class Sale:
 
     def __init__(self, **kwargs):
-        self.order_id = kwargs.get('order_id') # Primary
-        self.product_name = kwargs.get('book_name') # Foreign
+        self.order_id = kwargs.get('order_id') 
+        self.product_name = kwargs.get('book_name') 
         self.product_price = kwargs.get('product_price')
         self.product_amount = kwargs.get('product_amount')
         self.order_date = kwargs.get('order_date')
-        self.employee_id = kwargs.get('employee_id') # Foreign
+        self.employee_id = kwargs.get('employee_id')
+
+    def createSale(self):
+        pass
+
+    def editSale(self):
+        pass
+
+    def deleteSale(self):
+        pass
+
         
 
 class Report:
 
-    # Monthly report
     def __init__(self, **kwargs):
-        self.report_id = kwargs.get('report_id') # Primary
+        self.report_id = kwargs.get('report_id')
         self.report_date = kwargs.get('report_date')
-        self.sales = kwargs.get('sales') # Foreign
+        self.sales = kwargs.get('sales') 
+    
+    def createReport(self):
+        pass
 
 
 class Employee:
 
-    # This part is purely abstraction
+    def __init__(self, **kwargs):
+        self.employee_id = kwargs.get('employee_id')
+        self.employee_firstname = kwargs.get('employee_firstname')
+        self.employee_lastname = kwargs.get('employee_lastname')
+        self.employee_pass = kwargs.get('employee_pass')
+        self.employee_prev = kwargs.get('employee_prev')
 
-    def __init__(self, employee_firstname, employee_lastname, employee_pass, employee_id, employee_prev):
-        self.employee_id = employee_id
-        self.employee_firstname = employee_firstname
-        self.employee_lastname = employee_lastname
-        self.employee_pass = employee_pass
-        self.employee_prev = employee_prev
+    def addEmployee(self):
+        pass
+
+    def removeEmployee(self):
+        pass
+
+    def changeUser(self):
+        pass
+
+
+
 
