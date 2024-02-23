@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont, QFontDatabase
 import sys
 
-from menuBar import MenuBar
+from menubar import MenuBar
 from centralWidgets import CentralWidget
 
 
