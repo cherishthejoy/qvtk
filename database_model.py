@@ -37,15 +37,16 @@ class Report:
         self.report_id = kwargs.get('report_id') # Primary
         self.report_date = kwargs.get('report_date')
         self.sales = kwargs.get('sales') # Foreign
-        self.total_sale = kwargs.get('total_sale')
-        
+
 
 class Employee:
 
     # This part is purely abstraction
 
-    def __init__(self, employee_name, employee_pass, employee_id, employee_prev):
+    def __init__(self, employee_firstname, employee_lastname, employee_pass, employee_id, employee_prev):
         self.employee_id = employee_id
-        self.employee_name = employee_name
+        self.employee_firstname = employee_firstname
+        self.employee_lastname = employee_lastname
         self.employee_pass = employee_pass
         self.employee_prev = employee_prev
+
