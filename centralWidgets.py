@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import vtk
+import os
 
 from vtkCamera import CustomInteractorStyle
 
@@ -8,7 +9,8 @@ class CentralWidget(QtWidgets.QWidget):
     
     VTK_WINDOW_WIDTH = 400
     VTK_WINDOW_HEIGHT = 300
-    STL_FILE = "Moon.stl"
+    OBJ_FILE = "book_model.obj"
+    MTL_FILE = "book_model.mtl"
 
     def __init__(self, parent = None):
         super().__init__(parent)
@@ -149,22 +151,22 @@ class CentralWidget(QtWidgets.QWidget):
 
     def setupVTK(self):
 
-        reader = vtk.vtkSTLReader()
-        reader.SetFileName(self.STL_FILE)
+        importer = vtk.vtkOBJImporter()
+
+        importer.SetFileName(self.OBJ_FILE)
+        importer.SetFileNameMTL(self.MTL_FILE)
+        
+        obj_dir = os.path.dirname(self.OBJ_FILE)
+
+        importer.SetTexturePath(obj_dir)
 
         self.renderer = vtk.vtkRenderer()
-
         self.vtkWidget.GetRenderWindow().AddRenderer(self.renderer)
+
+        importer.SetRenderWindow(self.vtkWidget.GetRenderWindow())
+        importer.Update()
+
         self.renderWindowInteractor = self.vtkWidget.GetRenderWindow().GetInteractor()
-
-        mapper = vtk.vtkPolyDataMapper()
-        mapper.SetInputConnection(reader.GetOutputPort())
-
-        actor = vtk.vtkActor()
-        actor.SetMapper(mapper)
-
-        self.renderer.AddActor(actor)
-
         style = vtk.vtkInteractorStyleTrackballCamera()
         self.renderWindowInteractor.SetInteractorStyle(style)
 

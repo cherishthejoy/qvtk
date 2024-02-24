@@ -59,6 +59,9 @@ class Sale:
     def deleteSale(self):
         pass
 
+    def calculateTotal(self):
+        pass
+
         
 
 class Report:
@@ -72,6 +75,15 @@ class Report:
         pass
     
     def createReport(self):
+        pass
+
+    def calculateTotalSale(self):
+        pass
+
+
+
+class Membership:
+    def __init__ (self):
         pass
 
 
