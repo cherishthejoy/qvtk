@@ -9,10 +9,10 @@ class CustomInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
     
     def mouseWheelForwardEvent(self, obj, event):
         camera = self.renderer.GetActiveCamera()
-        if camera.GetDistance() > 100:
+        if camera.GetDistance() > 3:
             self.OnMouseWheelForward()
 
     def mouseWheelBackwardEvent(self, obj, event):
         camera = self.renderer.GetActiveCamera()
-        if camera.GetDistance() < 300:
+        if camera.GetDistance() < 10:
             self.OnMouseWheelBackward()
