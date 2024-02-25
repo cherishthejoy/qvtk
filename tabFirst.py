@@ -1,1 +1,0 @@
-# Here are some test comments to check if I have successfully changed my user.name and user.email
