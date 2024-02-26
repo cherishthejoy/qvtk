@@ -152,7 +152,6 @@ class CentralWidget(QtWidgets.QWidget):
     def setupVTK(self):
 
         importer = vtk.vtkOBJImporter()
-
         importer.SetFileName(self.OBJ_FILE)
         importer.SetFileNameMTL(self.MTL_FILE)
         
@@ -175,6 +174,10 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.renderer.AddActor(self.textActor)
 
+        # Shader
+        
+        
+        # ------------------------------------------------------------------------
 
         self.renderWindowInteractor = self.vtkWidget.GetRenderWindow().GetInteractor()
         style = vtk.vtkInteractorStyleTrackballCamera()
