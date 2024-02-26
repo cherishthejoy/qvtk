@@ -9,8 +9,8 @@ class CentralWidget(QtWidgets.QWidget):
     
     VTK_WINDOW_WIDTH = 400
     VTK_WINDOW_HEIGHT = 300
-    OBJ_FILE = "assets/test1.obj"
-    MTL_FILE = "assets/test1.mtl"
+    OBJ_FILE = "assets/THISBETTER.obj"
+    MTL_FILE = "assets/THISBETTER.mtl"
 
     def __init__(self, parent = None):
         super().__init__(parent)
