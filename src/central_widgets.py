@@ -175,6 +175,11 @@ class CentralWidget(QtWidgets.QWidget):
         self.renderer.AddActor(self.textActor)
 
         # Shader
+
+        # If this is still a case of shader
+
+        # -> Use built-in shader methods
+        # -> Completely override the shader methods
         
         
         # ------------------------------------------------------------------------
