@@ -178,8 +178,10 @@ class CentralWidget(QtWidgets.QWidget):
 
         # If this is still a case of shader
 
-        # -> Use built-in shader methods
+        # -> Use built-in shader methods to replace shader strings
         # -> Completely override the shader methods
+
+        # Take a look at this url -> https://examples.vtk.org/site/Cxx/Shaders/BozoShader/
         
         
         # ------------------------------------------------------------------------
