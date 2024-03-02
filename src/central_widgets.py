@@ -166,8 +166,6 @@ class CentralWidget(QtWidgets.QWidget):
         importer.Update()
 
 
-        # Annotations
-
         self.textActor = vtk.vtkTextActor()
         self.textActor.SetInput("The King in Yellow")
         self.textActor.GetTextProperty().SetFontSize(10)
@@ -242,7 +240,6 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.renderWindowInteractor = self.vtkWidget.GetRenderWindow().GetInteractor()
         style = vtk.vtkInteractorStyleTrackballCamera()
-        # self.renderWindowInteractor.SetInteractorStyle(style)
 
         self.renderer.SetBackground(0.5, 0.5, 0.5)
         self.renderer.ResetCamera()
