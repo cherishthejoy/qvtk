@@ -98,6 +98,9 @@ class CentralWidget(QtWidgets.QWidget):
         self.bookCoverTypeField = QtWidgets.QLineEdit()
         self.bookCoverTypeField.setObjectName("statFieldSeven")
 
+        self.bookISBNField = QtWidgets.QLineEdit()
+        self.bookISBNField.setObjectName("statsFieldEight")
+
 
     def setupLabels(self):
 
@@ -121,6 +124,9 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.bookCoverType = QtWidgets.QLabel()
         self.bookCoverType.setText("Book Cover Type")
+
+        self.bookISBN = QtWidgets.QLabel()
+        self.bookISBN.setText("Book ISBN")
 
         
     def placeFormLayoutItems(self):
@@ -148,6 +154,8 @@ class CentralWidget(QtWidgets.QWidget):
         self.statsFormLayout.addRow(self.bookCoverType, self.bookCoverTypeField)
         self.statsGroup.setLayout(self.statsFormLayout)
         
+        self.statsFormLayout.addRow(self.bookISBN, self.bookISBNField)
+        self.statsGroup.setLayout(self.statsFormLayout)
 
     def setupVTK(self):
 
