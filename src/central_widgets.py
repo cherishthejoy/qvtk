@@ -101,6 +101,9 @@ class CentralWidget(QtWidgets.QWidget):
         self.bookISBNField = QtWidgets.QLineEdit()
         self.bookISBNField.setObjectName("statsFieldEight")
 
+        self.bookLicenseField = QtWidgets.QLineEdit()
+        self.bookLicenseField.setObjectName("statsFieldNine") 
+
 
     def setupLabels(self):
 
@@ -127,6 +130,9 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.bookISBN = QtWidgets.QLabel()
         self.bookISBN.setText("Book ISBN")
+
+        self.bookLicense = QtWidgets.QLabel()
+        self.bookLicense.setText("Book License")
 
         
     def placeFormLayoutItems(self):
@@ -155,6 +161,9 @@ class CentralWidget(QtWidgets.QWidget):
         self.statsGroup.setLayout(self.statsFormLayout)
         
         self.statsFormLayout.addRow(self.bookISBN, self.bookISBNField)
+        self.statsGroup.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookLicense, self.bookLicenseField)
         self.statsGroup.setLayout(self.statsFormLayout)
 
     def setupVTK(self):
@@ -201,7 +210,7 @@ class CentralWidget(QtWidgets.QWidget):
         "//VTK::Normal::Dec\n"
         "vec2 curveEffect(vec2 uv){\n" 
             "uv = (uv - 0.5) s* 2.0;\n"
-            "uv *= 1.0;\t// Change this if you want to config distance\n"
+            "uv *= 1.0;\n"
             "uv.x *= 1.0 + pow((abs(uv.y) / 5.0), 2.0);\n"
             "uv.y *= 1.0 + pow((abs(uv.x) / 5.0), 2.0);\n"
             "uv  = (uv / 2.0) + 0.5;\n"
@@ -210,7 +219,7 @@ class CentralWidget(QtWidgets.QWidget):
         "}\n"
         "void main(){\n"
             "vec2 fragCoord = gl_FragCoord.xy;\n" 
-            "vec4 finalColor;\n" 
+            "vec4 finalColor;\n"
             "vec2 uv = curveEffect(fragCoord.xy / u_resolution.xy);\n" 
             "vec3 color;\n"
             "float sinComponent1 = sin(0.3 * u_time + uv.y * 21.0);\n" 
