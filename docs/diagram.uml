@@ -1,0 +1,38 @@
+@startuml
+!theme plain
+actor User
+
+node "Client" <<device>> {
+node GUI [
+<b> PyQt5 Application GUI
+....
+Dependencies
+----
+Python (3.12)
+PyQt5 (5.15.10)
+VTK (9.3.0)
+----
+CLI
+]
+folder Resources/Assets as folder1 {
+artifact OBJ <<artifact>>
+artifact MTL <<artifact>>
+}
+database "Local Database" <<database>> as database1{
+artifact data.db <<artifact>> [
+SQLite
+]
+}
+
+folder Configuration as folder2 {
+artifact settings.conf <<artifact>>
+}
+}
+
+
+folder1 --> database1
+GUI -- database1
+folder2 --> GUI
+
+User -[dashed]->Client
+@enduml
