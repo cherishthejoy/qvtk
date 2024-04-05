@@ -71,10 +71,13 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.inspectHorizontalLayout = QtWidgets.QHBoxLayout()
         self.inspectHorizontalLayout.addWidget(self.vtkWindow)
-        self.inspectGroup.setLayout(self.inspectHorizontalLayout)
-
+        
 
         self.vtkFormLayout = QtWidgets.QFormLayout()
+        self.inspectHorizontalLayout.addLayout(self.vtkFormLayout)
+
+        self.inspectGroup.setLayout(self.inspectHorizontalLayout)
+
 
 
         self.bookID = QtWidgets.QLabel()
@@ -101,17 +104,14 @@ class CentralWidget(QtWidgets.QWidget):
         self.stockField = QtWidgets.QLineEdit()
         self.stockField.setObjectName("stockField")
 
+
         self.vtkFormLayout.addRow(self.bookID, self.bookIDField)
-        self.inspectHorizontalLayout.addLayout(self.vtkFormLayout)
 
         self.vtkFormLayout.addRow(self.bookISBN, self.bookISBNField)
-        self.inspectHorizontalLayout.addLayout(self.vtkFormLayout)
 
         self.vtkFormLayout.addRow(self.bookPrice, self.bookPriceField)
-        self.inspectHorizontalLayout.addLayout(self.vtkFormLayout)
 
         self.vtkFormLayout.addRow(self.bookStock, self.stockField)
-        self.inspectHorizontalLayout.addLayout(self.vtkFormLayout)
 
 
     def placeGroupBoxes(self):
@@ -127,40 +127,37 @@ class CentralWidget(QtWidgets.QWidget):
     def setupInputFields(self):
 
         self.bookNameField = QtWidgets.QLineEdit()
-        self.bookNameField.setObjectName("statsFieldZero")
-
-        self.bookNameField = QtWidgets.QLineEdit()
-        self.bookNameField.setObjectName("statFieldOne")
+        self.bookNameField.setObjectName("statsFieldOne")
 
         self.bookAuthorField = QtWidgets.QLineEdit()
         self.bookAuthorField.setObjectName("statFieldTwo")
 
-        self.bookPrintDateField = QtWidgets.QLineEdit()
-        self.bookPrintDateField.setObjectName("statFieldThree")
-
-        self.bookCategoryField = QtWidgets.QLineEdit()
-        self.bookCategoryField.setObjectName("statFieldFour")
+        self.bookLanguageField = QtWidgets.QLineEdit()
+        self.bookLanguageField.setObjectName("statFieldThree")
 
         self.bookPublisherField = QtWidgets.QLineEdit()
-        self.bookPublisherField.setObjectName("statFieldFive")
+        self.bookPublisherField.setObjectName("statFieldFour")
 
-        self.bookLanguageField = QtWidgets.QLineEdit()
-        self.bookLanguageField.setObjectName("statFieldSix")
+        self.bookPageCountField = QtWidgets.QLineEdit()
+        self.bookPageCountField.setObjectName("statFieldFive")
+
+        self.bookPrintDateField = QtWidgets.QLineEdit()
+        self.bookPrintDateField.setObjectName("statFieldSix")
+
+        self.bookCategoryField = QtWidgets.QLineEdit()
+        self.bookCategoryField.setObjectName("statFieldSeven")
 
         self.bookCoverTypeField = QtWidgets.QLineEdit()
-        self.bookCoverTypeField.setObjectName("statFieldSeven")
-
-        self.bookISBNField = QtWidgets.QLineEdit()
-        self.bookISBNField.setObjectName("statsFieldEight")
+        self.bookCoverTypeField.setObjectName("statFieldEight")
 
         self.bookLicenseField = QtWidgets.QLineEdit()
-        self.bookLicenseField.setObjectName("statsFieldNine") 
+        self.bookLicenseField.setObjectName("statFieldNine") 
+
+        self.bookDimensionField = QtWidgets.QLineEdit()
+        self.bookDimensionField.setObjectName("statFieldTen")
 
 
     def setupLabels(self):
-
-        self.bookID = QtWidgets.QLabel()
-        self.bookID.setText("Book Id")
 
         self.bookName = QtWidgets.QLabel()
         self.bookName.setText("Book Name")
@@ -168,60 +165,55 @@ class CentralWidget(QtWidgets.QWidget):
         self.bookAuthor =  QtWidgets.QLabel()
         self.bookAuthor.setText("Book Author")
 
+        self.bookLanguage = QtWidgets.QLabel()
+        self.bookLanguage.setText("Book Language")
+
+        self.bookPublisher = QtWidgets.QLabel()
+        self.bookPublisher.setText("Book Publisher")
+
+        self.bookPageCount = QtWidgets.QLabel()
+        self.bookPageCount.setText("Book Page Count")
+
         self.bookPrintDate = QtWidgets.QLabel()
         self.bookPrintDate.setText("Book Print Date")
 
         self.bookCategory = QtWidgets.QLabel()
         self.bookCategory.setText("Book Category")
 
-        self.bookPublisher = QtWidgets.QLabel()
-        self.bookPublisher.setText("Book Publisher")
-
-        self.bookLanguage = QtWidgets.QLabel()
-        self.bookLanguage.setText("Book Language")
-
         self.bookCoverType = QtWidgets.QLabel()
         self.bookCoverType.setText("Book Cover Type")
 
-        self.bookISBN = QtWidgets.QLabel()
-        self.bookISBN.setText("Book ISBN")
-
         self.bookLicense = QtWidgets.QLabel()
         self.bookLicense.setText("Book License")
+
+        self.bookDimension = QtWidgets.QLabel()
+        self.bookDimension.setText("Dimension")
 
         
     def placeFormLayoutItems(self):
 
         self.statsFormLayout = QtWidgets.QFormLayout()
 
-        self.statsFormLayout.addRow(self.bookID, self.bookIDField)
-        self.statsGroup.setLayout(self.statsFormLayout)
-
         self.statsFormLayout.addRow(self.bookName, self.bookNameField)
-        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookAuthor, self.bookAuthorField)
-        self.statsGroup.setLayout(self.statsFormLayout)
-
-        self.statsFormLayout.addRow(self.bookPrintDate, self.bookPrintDateField)
-        self.statsGroup.setLayout(self.statsFormLayout)
-
-        self.statsFormLayout.addRow(self.bookCategory, self.bookCategoryField)
-        self.statsGroup.setLayout(self.statsFormLayout)
-
-        self.statsFormLayout.addRow(self.bookPublisher, self.bookPublisherField)
-        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookLanguage, self.bookLanguageField)
-        self.statsGroup.setLayout(self.statsFormLayout)
+
+        self.statsFormLayout.addRow(self.bookPublisher, self.bookPublisherField)
+
+        self.statsFormLayout.addRow(self.bookPageCount, self.bookPageCountField)
+
+        self.statsFormLayout.addRow(self.bookPrintDate, self.bookPrintDateField)
+
+        self.statsFormLayout.addRow(self.bookCategory, self.bookCategoryField)
 
         self.statsFormLayout.addRow(self.bookCoverType, self.bookCoverTypeField)
-        self.statsGroup.setLayout(self.statsFormLayout)
-        
-        self.statsFormLayout.addRow(self.bookISBN, self.bookISBNField)
-        self.statsGroup.setLayout(self.statsFormLayout)
 
         self.statsFormLayout.addRow(self.bookLicense, self.bookLicenseField)
+
+        self.statsFormLayout.addRow(self.bookDimension, self.bookDimensionField)
+
         self.statsGroup.setLayout(self.statsFormLayout)
 
 
