@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont, QFontDatabase
 import sys
+import qdarktheme
 
 from menubar import MenuBar
 from central_widgets import CentralWidget
@@ -8,8 +9,8 @@ from central_widgets import CentralWidget
 
 class MainWindow(QtWidgets.QMainWindow):
 
-    WINDOW_WIDTH = 800
-    WINDOW_HEIGHT = 600
+    WINDOW_WIDTH = 1200
+    WINDOW_HEIGHT = 800
 
 
     def __init__(self):
@@ -27,7 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setSystemFont(self):
 
-        fontId = QFontDatabase.addApplicationFont("fonts/JuliaMono-Regular.ttf")
+        fontId = QFontDatabase.addApplicationFont("fonts/saxMono.ttf")
 
         if fontId != -1:
             fontFamily = QFontDatabase.applicationFontFamilies(fontId)
@@ -38,9 +39,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
+
+    qdarktheme.enable_hi_dpi()
+    
     app = QtWidgets.QApplication(sys.argv)
+
+    qdarktheme.setup_theme("auto")
 
     window = MainWindow()
     window.show()
-
     sys.exit(app.exec_())

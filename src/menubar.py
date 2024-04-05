@@ -12,6 +12,7 @@ class MenuBar:
 
         self.actionNew = QtWidgets.QAction("New", self.menubar)
         self.actionSave = QtWidgets.QAction("Save", self.menubar)
+
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionSave)
 
@@ -22,3 +23,4 @@ class MenuBar:
 
         self.menubar.addMenu(self.menuFile)
         self.menubar.addMenu(self.menuEdit)
+

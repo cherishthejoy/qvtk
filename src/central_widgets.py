@@ -7,7 +7,7 @@ from camera_style import CustomInteractorStyle
 
 class CentralWidget(QtWidgets.QWidget):
     
-    VTK_WINDOW_WIDTH = 500
+    VTK_WINDOW_WIDTH = 300
     VTK_WINDOW_HEIGHT = 300
     OBJ_FILE = "assets/The-King-In-Yellow/the_king_in_yellow.obj"
     MTL_FILE = "assets/The-King-In-Yellow/the_king_in_yellow.mtl"
@@ -54,8 +54,8 @@ class CentralWidget(QtWidgets.QWidget):
         self.statsGroup = QtWidgets.QGroupBox()
         self.statsGroup.setTitle("Stats")
 
-        self.listGroup = QtWidgets.QGroupBox()
-        self.listGroup.setTitle("List")
+        self.synopsisGroup = QtWidgets.QGroupBox()
+        self.synopsisGroup.setTitle("Synopsys")
 
         self.searchGroup = QtWidgets.QGroupBox()
         self.searchGroup.setTitle("Search")
@@ -71,13 +71,14 @@ class CentralWidget(QtWidgets.QWidget):
 
         self.inspectHorizontalLayout = QtWidgets.QHBoxLayout()
         self.inspectHorizontalLayout.addWidget(self.vtkWindow)
-        
+
+        self.inspectHorizontalLayout.setContentsMargins(50, 0, 50, 0)
+
 
         self.vtkFormLayout = QtWidgets.QFormLayout()
         self.inspectHorizontalLayout.addLayout(self.vtkFormLayout)
 
         self.inspectGroup.setLayout(self.inspectHorizontalLayout)
-
 
 
         self.bookID = QtWidgets.QLabel()
@@ -117,11 +118,10 @@ class CentralWidget(QtWidgets.QWidget):
     def placeGroupBoxes(self):
 
         self.grid1.addWidget(self.inspectGroup, 0, 0)
-        self.grid1.addWidget(self.statsGroup, 0, 1)
-        self.grid1.addWidget(self.listGroup, 1, 0)
-        self.grid1.addWidget(self.searchGroup, 1, 1)
+        self.grid1.addWidget(self.searchGroup, 0, 1)
+        self.grid1.addWidget(self.synopsisGroup, 1, 0)
+        self.grid1.addWidget(self.statsGroup, 1, 1)
         self.grid1.addWidget(self.tableGroup, 2, 0, 1, 2)
-
 
 
     def setupInputFields(self):
