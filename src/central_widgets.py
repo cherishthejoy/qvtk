@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import vtk
 import os
@@ -72,11 +72,9 @@ class CentralWidget(QtWidgets.QWidget):
         self.inspectHorizontalLayout = QtWidgets.QHBoxLayout()
         self.inspectHorizontalLayout.addWidget(self.vtkWindow)
 
-        
-
-
         self.vtkFormLayout = QtWidgets.QFormLayout()
         self.inspectHorizontalLayout.addLayout(self.vtkFormLayout)
+        # self.vtkFormLayout.setFormAlignment(QtCore.Qt.AlignCenter)
 
         self.inspectGroup.setLayout(self.inspectHorizontalLayout)
 
@@ -105,6 +103,9 @@ class CentralWidget(QtWidgets.QWidget):
         self.stockField = QtWidgets.QLineEdit()
         self.stockField.setObjectName("stockField")
 
+        self.addButton  = QtWidgets.QPushButton('Add', self)
+
+
 
         self.vtkFormLayout.addRow(self.bookID, self.bookIDField)
 
@@ -113,6 +114,8 @@ class CentralWidget(QtWidgets.QWidget):
         self.vtkFormLayout.addRow(self.bookPrice, self.bookPriceField)
 
         self.vtkFormLayout.addRow(self.bookStock, self.stockField)
+
+        self.vtkFormLayout.addWidget(self.addButton)
 
 
     def placeGroupBoxes(self):
@@ -192,6 +195,8 @@ class CentralWidget(QtWidgets.QWidget):
         
     def placeFormLayoutItems(self):
 
+        #Stats Group
+
         self.statsFormLayout = QtWidgets.QFormLayout()
 
         self.statsFormLayout.addRow(self.bookName, self.bookNameField)
@@ -215,6 +220,48 @@ class CentralWidget(QtWidgets.QWidget):
         self.statsFormLayout.addRow(self.bookDimension, self.bookDimensionField)
 
         self.statsGroup.setLayout(self.statsFormLayout)
+
+
+        #SearchGroup
+
+        self.searchBar = QtWidgets.QLabel()
+        self.searchBar.setText("Search")
+
+        self.searchBarField = QtWidgets.QLineEdit()
+        self.searchBarField.setObjectName("searchField")
+
+        self.categoryBar = QtWidgets.QLabel()
+        self.categoryBar.setText("Filter/Category")
+
+        self.categoryBarField = QtWidgets.QLineEdit()
+        self.categoryBarField.setObjectName("categoryField")
+
+
+        self.searchBarLayout = QtWidgets.QHBoxLayout()
+        self.searchBarLayout.setAlignment(QtCore.Qt.AlignTop)
+
+        self.searchBarLayout.addWidget(self.searchBar)
+        self.searchBarLayout.addWidget(self.searchBarField)
+
+        self.searchBarLayout.addWidget(self.categoryBar)
+        self.searchBarLayout.addWidget(self.categoryBarField)
+
+        self.keywordCheck = QtWidgets.QCheckBox()
+        self.keywordCheck.setText("Keyword/Prompt")
+        self.searchBarLayout.addWidget(self.keywordCheck)
+
+        self.searchGroupLayout = QtWidgets.QVBoxLayout()
+        self.searchGroupLayout.addLayout(self.searchBarLayout)
+
+        self.searchButton  = QtWidgets.QPushButton('Search', self)
+        self.searchGroupLayout.addWidget(self.searchButton)
+    
+        self.searchGroup.setLayout(self.searchGroupLayout)
+
+
+
+
+
 
 
     def setupVTK(self):
