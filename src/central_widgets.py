@@ -72,7 +72,7 @@ class CentralWidget(QtWidgets.QWidget):
         self.inspectHorizontalLayout = QtWidgets.QHBoxLayout()
         self.inspectHorizontalLayout.addWidget(self.vtkWindow)
 
-        self.inspectHorizontalLayout.setContentsMargins(50, 0, 50, 0)
+        
 
 
         self.vtkFormLayout = QtWidgets.QFormLayout()
@@ -117,11 +117,11 @@ class CentralWidget(QtWidgets.QWidget):
 
     def placeGroupBoxes(self):
 
-        self.grid1.addWidget(self.inspectGroup, 0, 0)
+        self.grid1.addWidget(self.inspectGroup, 0, 0, 2, 1)
         self.grid1.addWidget(self.searchGroup, 0, 1)
-        self.grid1.addWidget(self.synopsisGroup, 1, 0)
-        self.grid1.addWidget(self.statsGroup, 1, 1)
-        self.grid1.addWidget(self.tableGroup, 2, 0, 1, 2)
+        self.grid1.addWidget(self.synopsisGroup, 2, 0, 2, 1)
+        self.grid1.addWidget(self.statsGroup, 1, 1, 3, 1)
+        self.grid1.addWidget(self.tableGroup, 4, 0, 2, 2)
 
 
     def setupInputFields(self):
