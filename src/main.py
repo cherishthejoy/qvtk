@@ -5,6 +5,8 @@ import qdarktheme
 
 from menubar import MenuBar
 from central_widgets import CentralWidget
+from tab_two import SecondTab
+from tab_three import ThirdTab
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -18,9 +20,18 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
 
         self.menuBar = MenuBar(self)
-
         self.centralWidget = CentralWidget(self)
-        self.setCentralWidget(self.centralWidget)
+        self.tabTwo = SecondTab(self)
+        self.tabThree = ThirdTab(self)
+
+        self.tabWidget = QtWidgets.QTabWidget(self)
+
+        self.tabWidget.addTab(self.centralWidget, "Information")
+        self.tabWidget.addTab(self.tabTwo, "Inventory")
+        self.tabWidget.addTab(self.tabThree, "Buy")
+
+        self.setCentralWidget(self.tabWidget)
+        
         self.setSystemFont()
 
         self.resize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
