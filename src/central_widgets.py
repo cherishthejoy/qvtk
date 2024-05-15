@@ -27,14 +27,13 @@ class CentralWidget(QtWidgets.QWidget):
 
     def setupTabs(self):
 
-        self.PlaceholderLabel1 = QtWidgets.QLabel("This is the 2nd tab!")
-
         self.gridWidget = QtWidgets.QWidget()
         self.gridWidget.setLayout(self.grid1)
 
         self.gridWrapperLayout = QtWidgets.QVBoxLayout(self)
 
         self.tabWidget = QtWidgets.QTabWidget(self)
+
 
         self.gridWrapperLayout.addWidget(self.tabWidget)
         self.tabWidget.addTab(self.gridWidget, "Inventory")
@@ -163,7 +162,7 @@ class CentralWidget(QtWidgets.QWidget):
     def setupLabels(self):
 
         self.bookName = QtWidgets.QLabel()
-        self.bookName.setText("Book Name")
+        self.bookName.setText("Book Title")
 
         self.bookAuthor =  QtWidgets.QLabel()
         self.bookAuthor.setText("Book Author")
@@ -259,7 +258,7 @@ class CentralWidget(QtWidgets.QWidget):
         self.searchGroup.setLayout(self.searchGroupLayout)
 
 
-        #Synopsis
+        #SynopsisGroup
 
         self.synopsisGroupLayout = QtWidgets.QVBoxLayout()
 
@@ -272,6 +271,21 @@ class CentralWidget(QtWidgets.QWidget):
         self.synopsisLabel.setReadOnly(True)
         self.synopsisGroupLayout.addWidget(self.synopsisLabel)
         self.synopsisGroup.setLayout(self.synopsisGroupLayout)
+
+
+        #TableGroup
+
+        self.tableWidget = QtWidgets.QTableWidget(10, 13)
+        self.tableWidget.setHorizontalHeaderLabels(["Title", "Author", "Language", "ISBN",
+                                                    "Publisher", "Page Count", "Print Date",
+                                                    "Category", "Cover Type", "License",
+                                                    "Dimension", "Price", "Stock"])
+
+
+        self.tableGroupLayout = QtWidgets.QVBoxLayout()
+        self.tableGroupLayout.addWidget(self.tableWidget)
+
+        self.tableGroup.setLayout(self.tableGroupLayout)
 
 
 
