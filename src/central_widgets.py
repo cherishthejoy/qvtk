@@ -259,6 +259,23 @@ class CentralWidget(QtWidgets.QWidget):
         self.searchGroup.setLayout(self.searchGroupLayout)
 
 
+        #Synopsis
+
+        self.synopsisGroupLayout = QtWidgets.QVBoxLayout()
+
+        self.synopsisLabel = QtWidgets.QTextEdit()
+        self.synopsisLabel.setText("The king in yellow is a book of short" 
+                                 "stories by the American writer Robert W. Chambers," 
+                                 "first published by F. Tennyson Neely in 1895.")
+        
+
+        self.synopsisLabel.setReadOnly(True)
+        self.synopsisGroupLayout.addWidget(self.synopsisLabel)
+        self.synopsisGroup.setLayout(self.synopsisGroupLayout)
+
+
+
+
 
 
 
