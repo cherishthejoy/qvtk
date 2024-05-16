@@ -86,7 +86,7 @@ class CentralWidget(QtWidgets.QWidget):
         self.stockField = QtWidgets.QLineEdit()
         self.stockField.setObjectName("stockField")
 
-        self.addButton  = QtWidgets.QPushButton('Add', self)
+        self.addButton = QtWidgets.QPushButton('Add', self)
 
 
 
