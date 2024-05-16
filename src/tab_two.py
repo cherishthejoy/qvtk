@@ -47,17 +47,55 @@ class SecondTab(QtWidgets.QWidget):
 
         #ItemGroup
 
-        self.bookID = QtWidgets.QLabel()
-        self.bookID.setText("Book Id")
+        labels = ["Book Title", "Book Publisher", "Book ISBN", 
+                "Book Published Date", "Book Language", "Book Id",
+                "Book Author", "Book Category", "Book Price",
+                "Book Dimension", "Book Print Date", "Stock",
+                "Book Cover Type", "Book Page Count"]
+        
+        objects = ["bookTitleField", "bookPublisherField", "bookISBNField", 
+                "bookPublishedDate", "bookLanguageField", "bookIdField",
+                "bookAuthorField", "bookCategoryField", "bookPriceField",
+                "bookDimensionField", "bookPrintDateField", "stockField",
+                "bookCoverTypeField", "bookPageCountField"]
 
-        self.bookIDField = QtWidgets.QLineEdit()
-        self.bookIDField.setObjectName("bookIdField")
+        self.fields = {}
 
-        self.itemGroupLayout = QtWidgets.QFormLayout()
+        for label_text, object_name in zip(labels, objects):
+            label = QtWidgets.QLabel()
+            label.setText(label_text)
 
-        self.itemGroupLayout.addRow(self.bookID, self.bookIDField)
+            field = QtWidgets.QLineEdit()
+            field.setObjectName(object_name)
+
+            self.fields[label_text] = (label, field)
+
+        self.formLayouts = [QtWidgets.QFormLayout() for _ in range(3)]
+
+        for i, (label_text, (label, field)) in enumerate(self.fields.items()):
+            self.formLayouts[i % 3].addRow(label, field)
+
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+
+        for formLayout in self.formLayouts:
+            self.horizontalLayout.addLayout(formLayout)
+
+        self.itemGroup.setLayout(self.horizontalLayout)
+
 
         #TableGroup
+
+        self.tableWidget = QtWidgets.QTableWidget(20, 13)
+        self.tableWidget.setHorizontalHeaderLabels(["Title", "Author", "Language", "ISBN",
+                                                    "Publisher", "Page Count", "Print Date",
+                                                    "Category", "Cover Type", "License",
+                                                    "Dimension", "Price", "Stock"])
+
+
+        self.tableGroupLayout = QtWidgets.QVBoxLayout()
+        self.tableGroupLayout.addWidget(self.tableWidget)
+
+        self.tableGroup.setLayout(self.tableGroupLayout)
 
         #SearchGroup
 
