@@ -260,6 +260,7 @@ class CentralWidget(QtWidgets.QWidget):
         #TableGroup
 
         self.tableWidget = QtWidgets.QTableWidget(10, 13)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.tableWidget.setHorizontalHeaderLabels(["Title", "Author", "Language", "ISBN",
                                                     "Publisher", "Page Count", "Print Date",
                                                     "Category", "Cover Type", "License",

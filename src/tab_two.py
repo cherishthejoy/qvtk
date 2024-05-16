@@ -5,15 +5,10 @@ class SecondTab(QtWidgets.QWidget):
     def __init__(self, parent = None):
         super().__init__(parent)
         self.setupGridLayout()
-        self.setupGrid()
         self.setupGroupBox()
         self.placeGroupBox()
         self.setupInputs()
 
-    def setupGrid(self):
-
-        self.gridWidget = QtWidgets.QWidget()
-        self.setLayout(self.grid2)
     
     def setupGridLayout(self):
 
@@ -45,7 +40,7 @@ class SecondTab(QtWidgets.QWidget):
 
     def setupInputs(self):
 
-        #ItemGroup
+        #Item Group
 
         labels = ["Book Title", "Book Publisher", "Book ISBN", 
                 "Book Published Date", "Book Language", "Book Id",
@@ -83,9 +78,10 @@ class SecondTab(QtWidgets.QWidget):
         self.itemGroup.setLayout(self.horizontalLayout)
 
 
-        #TableGroup
+        #Table Group
 
         self.tableWidget = QtWidgets.QTableWidget(20, 13)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.tableWidget.setHorizontalHeaderLabels(["Title", "Author", "Language", "ISBN",
                                                     "Publisher", "Page Count", "Print Date",
                                                     "Category", "Cover Type", "License",
@@ -97,6 +93,45 @@ class SecondTab(QtWidgets.QWidget):
 
         self.tableGroup.setLayout(self.tableGroupLayout)
 
-        #SearchGroup
+        #Search Group
 
-        #ChangeGroup
+        self.searchBar = QtWidgets.QLabel()
+        self.searchBar.setText("Search")
+
+        self.searchBarField = QtWidgets.QLineEdit()
+        self.searchBarField.setObjectName("searchField")
+
+        self.categoryBar = QtWidgets.QLabel()
+        self.categoryBar.setText("Filter/Category")
+
+        self.categoryBarField = QtWidgets.QLineEdit()
+        self.categoryBarField.setObjectName("categoryField")
+
+
+        self.searchBarLayout = QtWidgets.QHBoxLayout()
+
+        self.searchBarLayout.addWidget(self.searchBar)
+        self.searchBarLayout.addWidget(self.searchBarField)
+
+        self.searchBarLayout.addWidget(self.categoryBar)
+        self.searchBarLayout.addWidget(self.categoryBarField)
+
+        self.searchButton = QtWidgets.QPushButton('Search', self)
+        self.searchBarLayout.addWidget(self.searchButton)
+
+        self.resetButton = QtWidgets.QPushButton('Reset', self)
+        self.searchBarLayout.addWidget(self.resetButton)
+    
+        self.searchGroup.setLayout(self.searchBarLayout)
+
+        #Change Group
+
+        self.changeButtonsLayout = QtWidgets.QHBoxLayout()
+
+        self.updateButton = QtWidgets.QPushButton('Update', self)
+        self.changeButtonsLayout.addWidget(self.updateButton)
+
+        self.deleteButton = QtWidgets.QPushButton('Delete', self)
+        self.changeButtonsLayout.addWidget(self.deleteButton)
+
+        self.changeGroup.setLayout(self.changeButtonsLayout)
