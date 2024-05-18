@@ -7,6 +7,7 @@ from menubar import MenuBar
 from central_widgets import CentralWidget
 from tab_two import SecondTab
 from tab_three import ThirdTab
+from database import initialize_db
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -50,6 +51,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
+
+    initialize_db()
 
     qdarktheme.enable_hi_dpi()
     

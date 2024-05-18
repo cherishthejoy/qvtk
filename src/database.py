@@ -1,7 +1,11 @@
+import os
 import sqlite3
 
+
 def connect_db():
-    return sqlite3.connect('ishtar.db')
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    db_path = os.path.join(dir_path, 'ishtar.db')
+    return sqlite3.connect(db_path)
 
 def create_table(cursor):
     cursor.execute('''
@@ -28,9 +32,10 @@ def insert_data(cursor, data):
             title, publisher, isbn, published_date, language,
             author, category, price, dimension, print_date, stock,
             cover_type, page_count)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', data)
     
-    
+
 def initialize_db():
     connection = connect_db()
     cursor = connection.cursor()

@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from database import connect_db, insert_data
 
 class SecondTab(QtWidgets.QWidget):
 
@@ -8,6 +9,8 @@ class SecondTab(QtWidgets.QWidget):
         self.setupGroupBox()
         self.placeGroupBox()
         self.setupInputs()
+        self.button_clearance()
+        self.display_records()
 
     
     def setupGridLayout(self):
@@ -43,13 +46,13 @@ class SecondTab(QtWidgets.QWidget):
         #Item Group
 
         labels = ["Book Title", "Book Publisher", "Book ISBN", 
-                "Book Published Date", "Book Language", "Book Id",
+                "Book Published Date", "Book Language",
                 "Book Author", "Book Category", "Book Price",
                 "Book Dimension", "Book Print Date", "Stock",
                 "Book Cover Type", "Book Page Count"]
         
         objects = ["bookTitleField", "bookPublisherField", "bookISBNField", 
-                "bookPublishedDate", "bookLanguageField", "bookIdField",
+                "bookPublishedDate", "bookLanguageField",
                 "bookAuthorField", "bookCategoryField", "bookPriceField",
                 "bookDimensionField", "bookPrintDateField", "stockField",
                 "bookCoverTypeField", "bookPageCountField"]
@@ -128,10 +131,47 @@ class SecondTab(QtWidgets.QWidget):
 
         self.changeButtonsLayout = QtWidgets.QHBoxLayout()
 
-        self.updateButton = QtWidgets.QPushButton('Update', self)
+        self.updateButton = QtWidgets.QPushButton('Insert', self)
         self.changeButtonsLayout.addWidget(self.updateButton)
 
         self.deleteButton = QtWidgets.QPushButton('Delete', self)
         self.changeButtonsLayout.addWidget(self.deleteButton)
 
         self.changeGroup.setLayout(self.changeButtonsLayout)
+
+
+    def add_record(self):
+
+        data = tuple(field.text() for _, (_, field) in self.fields.items())
+
+        connection = connect_db()
+        cursor = connection.cursor()
+        insert_data(cursor, data)
+        connection.commit()
+        connection.close()
+
+        self.display_records()
+
+        # Clear
+
+        for _, (_, field) in self.fields.items():
+            field.clear()
+
+    def button_clearance(self):
+        self.updateButton.clicked.connect(self.add_record)
+
+
+    def display_records(self):
+
+        connection = connect_db()
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM book_info')
+        records = cursor.fetchall()
+        connection.close()
+
+        self.tableWidget.setRowCount(0)
+
+        for row_number, row_data in enumerate(records):
+            self.tableWidget.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
