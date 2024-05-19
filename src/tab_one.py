@@ -2,10 +2,11 @@ from PyQt5 import QtWidgets, QtCore
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 import vtk
 import os
+from database import connect_db
 
 from camera_style import CustomInteractorStyle
 
-class CentralWidget(QtWidgets.QWidget):
+class FirstTab(QtWidgets.QWidget):
     
     VTK_WINDOW_WIDTH = 300
     VTK_WINDOW_HEIGHT = 300
@@ -22,6 +23,7 @@ class CentralWidget(QtWidgets.QWidget):
         self.setupLabels()
         self.placeFormLayoutItems()
         self.setupVTK()
+        self.display_records()
 
 
     def setupGrids(self):
@@ -273,13 +275,6 @@ class CentralWidget(QtWidgets.QWidget):
         self.tableGroup.setLayout(self.tableGroupLayout)
 
 
-
-
-
-
-
-
-
     def setupVTK(self):
 
         importer = vtk.vtkOBJImporter()
@@ -314,3 +309,18 @@ class CentralWidget(QtWidgets.QWidget):
         self.renderWindowInteractor.SetInteractorStyle(style)
 
         self.renderWindowInteractor.Initialize()
+
+    def display_records(self, data):
+
+        connection = connect_db()
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM book_info')
+        records = cursor.fetchall()
+        connection.close()
+
+        self.tableWidget.setRowCount(0)
+
+        for row_number, row_data in enumerate(records):
+            self.tableWidget.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
