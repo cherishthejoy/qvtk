@@ -1,9 +1,10 @@
 from PyQt5 import QtWidgets
 from database import connect_db, insert_data
+from tab_one import FirstTab
 
 class SecondTab(QtWidgets.QWidget):
 
-    def __init__(self, parent = None):
+    def __init__(self, tabOne, parent = None):
         super().__init__(parent)
         self.setupGridLayout()
         self.setupGroupBox()
@@ -11,6 +12,8 @@ class SecondTab(QtWidgets.QWidget):
         self.setupInputs()
         self.button_clearance()
         self.display_records()
+
+        self.tabOne = tabOne
 
     
     def setupGridLayout(self):
@@ -52,10 +55,14 @@ class SecondTab(QtWidgets.QWidget):
                 "Book Cover Type", "Book Page Count"]
         
         objects = ["bookTitleField", "bookPublisherField", "bookISBNField", 
-                "bookPublishedDate", "bookLanguageField",
+                "bookPublishedDateField", "bookLanguageField",
                 "bookAuthorField", "bookCategoryField", "bookPriceField",
                 "bookDimensionField", "bookPrintDateField", "stockField",
                 "bookCoverTypeField", "bookPageCountField"]
+        
+        categoryList = ["None", "Adventure", "Action", "Horror", "Sci-fi", "Romance", "Literature"]
+        languageList = ["None", "English", "Mongolian", "Chinese", "German"]
+        bookCoverList = ["None", "Hardcover", "Paperback"]
 
         self.fields = {}
 
@@ -63,7 +70,20 @@ class SecondTab(QtWidgets.QWidget):
             label = QtWidgets.QLabel()
             label.setText(label_text)
 
-            field = QtWidgets.QLineEdit()
+            if object_name == "bookCategoryField":
+                field = QtWidgets.QComboBox()
+                field.addItems(categoryList)
+            elif object_name == "bookLanguageField":
+                field = QtWidgets.QComboBox()
+                field.addItems(languageList)
+            elif object_name == "bookCoverTypeField":
+                field = QtWidgets.QComboBox()
+                field.addItems(bookCoverList)
+            elif object_name in ["bookPublishedDateField", "bookPrintDateField"]:
+                field = QtWidgets.QDateEdit()
+            else:
+                field = QtWidgets.QLineEdit()
+
             field.setObjectName(object_name)
 
             self.fields[label_text] = (label, field)
@@ -150,7 +170,8 @@ class SecondTab(QtWidgets.QWidget):
 
     def add_record(self):
 
-        data = tuple(field.text() for _, (_, field) in self.fields.items())
+        data = tuple(field.currentText() if isinstance(field, QtWidgets.QComboBox) else field.text()
+        for _, (_, field) in self.fields.items())
 
         connection = connect_db()
         cursor = connection.cursor()
@@ -159,6 +180,7 @@ class SecondTab(QtWidgets.QWidget):
         connection.close()
 
         self.display_records()
+        self.tabOne.display_records()
 
         # Clear
 

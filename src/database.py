@@ -20,7 +20,7 @@ def create_table(cursor):
                         price REAL,
                         dimension TEXT,
                         print_date DATE, 
-                        stock TEXT, 
+                        stock INTEGER, 
                         cover_type TEXT, 
                         page_count INTEGER)
     ''')

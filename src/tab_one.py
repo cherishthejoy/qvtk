@@ -310,7 +310,7 @@ class FirstTab(QtWidgets.QWidget):
 
         self.renderWindowInteractor.Initialize()
 
-    def display_records(self, data):
+    def display_records(self):
 
         connection = connect_db()
         cursor = connection.cursor()
