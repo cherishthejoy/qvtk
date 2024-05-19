@@ -48,21 +48,22 @@ class SecondTab(QtWidgets.QWidget):
 
         #Item Group
 
-        labels = ["Book Title", "Book Publisher", "Book ISBN", 
-                "Book Published Date", "Book Language",
-                "Book Author", "Book Category", "Book Price",
-                "Book Dimension", "Book Print Date", "Stock",
-                "Book Cover Type", "Book Page Count"]
+        labels = ["Title", "Author", "Language", 
+                "ISBN", "Publisher", "Published Date",
+                "Page Count", "Print Date", "Category",
+                "Cover Type", "License", "Dimension",
+                "Price", "Stock"]
         
-        objects = ["bookTitleField", "bookPublisherField", "bookISBNField", 
-                "bookPublishedDateField", "bookLanguageField",
-                "bookAuthorField", "bookCategoryField", "bookPriceField",
-                "bookDimensionField", "bookPrintDateField", "stockField",
-                "bookCoverTypeField", "bookPageCountField"]
+        objects = ["bookTitleField", "bookAuthorField", "bookLanguageField", 
+                "bookISBNField", "bookPublisherField", "bookPublishedDateField",
+                "bookPageCountField", "bookPrintDateField", "bookCategoryField",
+                "bookCoverTypeField", "bookLicenseField", "bookDimensionField",
+                "bookPriceField", "stockField"]
         
         categoryList = ["None", "Adventure", "Action", "Horror", "Sci-fi", "Romance", "Literature"]
         languageList = ["None", "English", "Mongolian", "Chinese", "German"]
-        bookCoverList = ["None", "Hardcover", "Paperback"]
+        CoverList = ["None", "Hardcover", "Paperback"]
+        LicenseList = ["None", "Copyright", "Public Domain", "CC", "Open Access", "Proprietary"]
 
         self.fields = {}
 
@@ -78,7 +79,10 @@ class SecondTab(QtWidgets.QWidget):
                 field.addItems(languageList)
             elif object_name == "bookCoverTypeField":
                 field = QtWidgets.QComboBox()
-                field.addItems(bookCoverList)
+                field.addItems(CoverList)
+            elif object_name == "bookLicenseField":
+                field = QtWidgets.QComboBox()
+                field.addItems(LicenseList)
             elif object_name in ["bookPublishedDateField", "bookPrintDateField"]:
                 field = QtWidgets.QDateEdit()
             else:
@@ -106,17 +110,20 @@ class SecondTab(QtWidgets.QWidget):
         self.insertButtonLayout.addWidget(self.insertButton)
         self.formLayouts[2].addRow(self.insertButtonLayout)
 
+        self.synopsisBox = QtWidgets.QTextEdit()
+        self.horizontalLayout.addWidget(self.synopsisBox)
+
         self.itemGroup.setLayout(self.horizontalLayout)
 
 
         #Table Group
 
-        self.tableWidget = QtWidgets.QTableWidget(20, 13)
+        self.tableWidget = QtWidgets.QTableWidget(20, 14)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.tableWidget.setHorizontalHeaderLabels(["Title", "Author", "Language", "ISBN",
-                                                    "Publisher", "Page Count", "Print Date",
+                                                    "Publisher", "Published Date", "Page Count", "Print Date",
                                                     "Category", "Cover Type", "License",
-                                                    "Dimension", "Price", "Stock"])
+                                                    "Dimension", "Price", "Stock", "Synopsis"])
 
 
         self.tableGroupLayout = QtWidgets.QVBoxLayout()

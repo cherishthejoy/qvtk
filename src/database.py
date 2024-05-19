@@ -11,28 +11,30 @@ def create_table(cursor):
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS book_info(
                         title TEXT,
-                        publisher TEXT,
-                        isbn TEXT,
-                        published_date DATE,
-                        language TEXT,
                         author TEXT,
+                        language TEXT,
+                        isbn TEXT,
+                        publisher TEXT,
+                        published_date DATE,
+                        page_count INTEGER,
+                        print_date DATE,
                         category TEXT,
-                        price REAL,
-                        dimension TEXT,
-                        print_date DATE, 
-                        stock INTEGER, 
-                        cover_type TEXT, 
-                        page_count INTEGER)
+                        cover_type TEXT,
+                        license TEXT, 
+                        dimension TEXT, 
+                        price REAL, 
+                        stock INTEGER,
+                        synopsis TEXT)
     ''')
 
 
 def insert_data(cursor, data):
     cursor.execute('''
         INSERT INTO book_info(
-            title, publisher, isbn, published_date, language,
-            author, category, price, dimension, print_date, stock,
-            cover_type, page_count)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            title, author, language, isbn, publisher, published_date,
+            page_count, print_date, category, cover_type, license, dimension,
+            price, stock, synopsis)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', data)
     
 

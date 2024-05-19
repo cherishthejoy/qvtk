@@ -25,6 +25,8 @@ class FirstTab(QtWidgets.QWidget):
         self.setupVTK()
         self.display_records()
 
+        self.tableWidget.itemSelectionChanged.connect(self.update_line_edits)
+
 
     def setupGrids(self):
 
@@ -93,13 +95,9 @@ class FirstTab(QtWidgets.QWidget):
 
 
         self.vtkFormLayout.addRow(self.bookID, self.bookIDField)
-
         self.vtkFormLayout.addRow(self.bookISBN, self.bookISBNField)
-
         self.vtkFormLayout.addRow(self.bookPrice, self.bookPriceField)
-
         self.vtkFormLayout.addRow(self.bookStock, self.stockField)
-
         self.vtkFormLayout.addWidget(self.addButton)
 
 
@@ -114,8 +112,8 @@ class FirstTab(QtWidgets.QWidget):
 
     def setupInputFields(self):
 
-        self.bookNameField = QtWidgets.QLineEdit()
-        self.bookNameField.setObjectName("statsFieldOne")
+        self.bookTitleField = QtWidgets.QLineEdit()
+        self.bookTitleField.setObjectName("statsFieldOne")
 
         self.bookAuthorField = QtWidgets.QLineEdit()
         self.bookAuthorField.setObjectName("statFieldTwo")
@@ -125,6 +123,9 @@ class FirstTab(QtWidgets.QWidget):
 
         self.bookPublisherField = QtWidgets.QLineEdit()
         self.bookPublisherField.setObjectName("statFieldFour")
+
+        self.bookPublishedDateField = QtWidgets.QLineEdit()
+        self.bookPublishedDateField.setObjectName("statFieldEleven")
 
         self.bookPageCountField = QtWidgets.QLineEdit()
         self.bookPageCountField.setObjectName("statFieldFive")
@@ -147,8 +148,8 @@ class FirstTab(QtWidgets.QWidget):
 
     def setupLabels(self):
 
-        self.bookName = QtWidgets.QLabel()
-        self.bookName.setText("Book Title")
+        self.bookTitle = QtWidgets.QLabel()
+        self.bookTitle.setText("Book Title")
 
         self.bookAuthor =  QtWidgets.QLabel()
         self.bookAuthor.setText("Book Author")
@@ -158,6 +159,9 @@ class FirstTab(QtWidgets.QWidget):
 
         self.bookPublisher = QtWidgets.QLabel()
         self.bookPublisher.setText("Book Publisher")
+
+        self.bookPublishedDate = QtWidgets.QLabel()
+        self.bookPublishedDate.setText("Book Published Date")
 
         self.bookPageCount = QtWidgets.QLabel()
         self.bookPageCount.setText("Book Page Count")
@@ -184,26 +188,17 @@ class FirstTab(QtWidgets.QWidget):
 
         self.statsFormLayout = QtWidgets.QFormLayout()
 
-        self.statsFormLayout.addRow(self.bookName, self.bookNameField)
-
+        self.statsFormLayout.addRow(self.bookTitle, self.bookTitleField)
         self.statsFormLayout.addRow(self.bookAuthor, self.bookAuthorField)
-
         self.statsFormLayout.addRow(self.bookLanguage, self.bookLanguageField)
-
         self.statsFormLayout.addRow(self.bookPublisher, self.bookPublisherField)
-
+        self.statsFormLayout.addRow(self.bookPublishedDate, self.bookPublishedDateField)
         self.statsFormLayout.addRow(self.bookPageCount, self.bookPageCountField)
-
         self.statsFormLayout.addRow(self.bookPrintDate, self.bookPrintDateField)
-
         self.statsFormLayout.addRow(self.bookCategory, self.bookCategoryField)
-
         self.statsFormLayout.addRow(self.bookCoverType, self.bookCoverTypeField)
-
         self.statsFormLayout.addRow(self.bookLicense, self.bookLicenseField)
-
         self.statsFormLayout.addRow(self.bookDimension, self.bookDimensionField)
-
         self.statsGroup.setLayout(self.statsFormLayout)
 
 
@@ -248,11 +243,7 @@ class FirstTab(QtWidgets.QWidget):
 
         self.synopsisGroupLayout = QtWidgets.QVBoxLayout()
 
-        self.synopsisLabel = QtWidgets.QTextEdit()
-        self.synopsisLabel.setText("The king in yellow is a book of short" 
-                                 "stories by the American writer Robert W. Chambers," 
-                                 "first published by F. Tennyson Neely in 1895.")
-        
+        self.synopsisLabel = QtWidgets.QTextEdit()        
 
         self.synopsisLabel.setReadOnly(True)
         self.synopsisGroupLayout.addWidget(self.synopsisLabel)
@@ -261,12 +252,12 @@ class FirstTab(QtWidgets.QWidget):
 
         #TableGroup
 
-        self.tableWidget = QtWidgets.QTableWidget(10, 13)
+        self.tableWidget = QtWidgets.QTableWidget(10, 14)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.tableWidget.setHorizontalHeaderLabels(["Title", "Author", "Language", "ISBN",
-                                                    "Publisher", "Page Count", "Print Date",
+                                                    "Publisher", "Published Date", "Page Count", "Print Date",
                                                     "Category", "Cover Type", "License",
-                                                    "Dimension", "Price", "Stock"])
+                                                    "Dimension", "Price", "Stock", "Synopsis"])
 
 
         self.tableGroupLayout = QtWidgets.QVBoxLayout()
@@ -314,7 +305,7 @@ class FirstTab(QtWidgets.QWidget):
 
         connection = connect_db()
         cursor = connection.cursor()
-        cursor.execute('SELECT * FROM book_info')
+        cursor.execute('SELECT rowid,  * FROM book_info')
         records = cursor.fetchall()
         connection.close()
 
@@ -324,3 +315,28 @@ class FirstTab(QtWidgets.QWidget):
             self.tableWidget.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+        
+        self.tableWidget.setColumnHidden(0, True)
+        self.tableWidget.setColumnHidden(15, True)
+
+    def update_line_edits(self):
+        selected_items = self.tableWidget.selectedItems()
+        if selected_items:
+            row = selected_items[0].row()
+
+            self.bookIDField.setText(self.tableWidget.item(row, 0).text())
+            self.bookTitleField.setText(self.tableWidget.item(row, 1).text())
+            self.bookAuthorField.setText(self.tableWidget.item(row, 2).text())
+            self.bookLanguageField.setText(self.tableWidget.item(row, 3).text())
+            self.bookISBNField.setText(self.tableWidget.item(row, 4).text())
+            self.bookPublisherField.setText(self.tableWidget.item(row, 5).text())
+            self.bookPublishedDateField.setText(self.tableWidget.item(row, 6).text())
+            self.bookPageCountField.setText(self.tableWidget.item(row, 7).text())
+            self.bookPrintDateField.setText(self.tableWidget.item(row, 8).text())
+            self.bookCategoryField.setText(self.tableWidget.item(row, 9).text())
+            self.bookCoverTypeField.setText(self.tableWidget.item(row, 10).text())
+            self.bookLicenseField.setText(self.tableWidget.item(row, 11).text())
+            self.bookDimensionField.setText(self.tableWidget.item(row, 12).text())
+            self.bookPriceField.setText(self.tableWidget.item(row, 13).text())
+            self.stockField.setText(self.tableWidget.item(row, 14).text())
+            self.synopsisLabel.setText(self.tableWidget.item(row, 15).text())
