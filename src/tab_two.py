@@ -78,6 +78,14 @@ class SecondTab(QtWidgets.QWidget):
         for formLayout in self.formLayouts:
             self.horizontalLayout.addLayout(formLayout)
 
+
+        self.insertButton = QtWidgets.QPushButton('Insert', self)
+        self.insertButton.setMaximumWidth(100)
+        self.insertButtonLayout = QtWidgets.QHBoxLayout()
+        self.insertButtonLayout.addStretch(1)
+        self.insertButtonLayout.addWidget(self.insertButton)
+        self.formLayouts[2].addRow(self.insertButtonLayout)
+
         self.itemGroup.setLayout(self.horizontalLayout)
 
 
@@ -131,7 +139,7 @@ class SecondTab(QtWidgets.QWidget):
 
         self.changeButtonsLayout = QtWidgets.QHBoxLayout()
 
-        self.updateButton = QtWidgets.QPushButton('Insert', self)
+        self.updateButton = QtWidgets.QPushButton('Update', self)
         self.changeButtonsLayout.addWidget(self.updateButton)
 
         self.deleteButton = QtWidgets.QPushButton('Delete', self)
@@ -158,7 +166,7 @@ class SecondTab(QtWidgets.QWidget):
             field.clear()
 
     def button_clearance(self):
-        self.updateButton.clicked.connect(self.add_record)
+        self.insertButton.clicked.connect(self.add_record)
 
 
     def display_records(self):
