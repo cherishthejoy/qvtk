@@ -32,17 +32,15 @@ class ThirdTab(QtWidgets.QWidget):
     def placeGroupBox(self):
 
 
-        #The only reason I'm putting splitter between those two groupboxes is
-        #because the table and the membership box proportions are 3:2 regardless.
-        #Not a good workaround but will take it.
+        # The only reason I'm putting splitter between those two groupboxes is
+        # because the table and the membership box proportions are 3:2 regardless.
+        # Not a good workaround but will take it.
 
         self.splitter = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
         self.splitter.addWidget(self.tableGroup)
         self.splitter.addWidget(self.membershipGroup)
         
         self.grid3.addWidget(self.buyGroup, 0, 0, 1, 2)
-        # self.grid3.addWidget(self.tableGroup, 1, 0, 3, 1)
-        # self.grid3.addWidget(self.membershipGroup, 1, 1, 3, 1)
         self.grid3.addWidget(self.splitter, 1, 0, 3, 2)
         self.grid3.addWidget(self.buttonGroup, 4, 0, 1, 2)
 
@@ -82,7 +80,7 @@ class ThirdTab(QtWidgets.QWidget):
         self.itemGroupLayoutTwo = QtWidgets.QFormLayout()
         self.itemGroupLayoutTwo.setFormAlignment(QtCore.Qt.AlignVCenter)
 
-        self.itemGroupLayoutOne.addRow(self.bookID, self.bookIDField)
+        # self.itemGroupLayoutOne.addRow(self.bookID, self.bookIDField)
         self.itemGroupLayoutOne.addRow(self.bookTitle, self.bookTitleField)
         self.itemGroupLayoutTwo.addRow(self.bookPrice, self.bookPriceField)
         self.itemGroupLayoutTwo.addRow(self.bookQuantity, self.bookQuantityField)
@@ -101,7 +99,7 @@ class ThirdTab(QtWidgets.QWidget):
 
         self.tableWidget = QtWidgets.QTableWidget(10, 5)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        self.tableWidget.setHorizontalHeaderLabels(["Id", "Title", "Quantity", "Price", "Total"])
+        self.tableWidget.setHorizontalHeaderLabels(["ISBN", "Title", "Quantity", "Price", "Total"])
 
 
         self.deleteButton = QtWidgets.QPushButton("Delete")
