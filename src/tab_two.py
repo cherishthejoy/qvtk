@@ -145,10 +145,11 @@ class SecondTab(QtWidgets.QWidget):
 
         self.categoryBar = QtWidgets.QLabel()
         self.categoryBar.setText("Filter/Category")
+        
 
-        self.categoryBarField = QtWidgets.QLineEdit()
+        self.categoryBarField = QtWidgets.QComboBox()
         self.categoryBarField.setObjectName("categoryField")
-
+        self.categoryBarField.addItems(categoryList)
 
         self.searchBarLayout = QtWidgets.QHBoxLayout()
 
@@ -216,6 +217,8 @@ class SecondTab(QtWidgets.QWidget):
         self.insertButton.clicked.connect(self.add_record)
         self.deleteButton.clicked.connect(self.deleted_selected_row)
         self.updateButton.clicked.connect(self.update_record)
+        self.resetButton.clicked.connect(self.reset_search_fields)
+        self.searchButton.clicked.connect(self.search_records)
 
 
     def display_records(self):
@@ -316,3 +319,32 @@ class SecondTab(QtWidgets.QWidget):
 
         self.display_records()
         self.tabOne.display_records()
+
+    def search_records(self):
+        search_query = self.searchBarField.text().lower()
+        category_filter = self.categoryBarField.currentText().lower()
+
+        connection = connect_db()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM book_info WHERE LOWER(title) LIKE ?'
+        params = [f'%{search_query}%']
+        if category_filter and category_filter != 'none':
+            query += ' AND LOWER(category) LIKE ?'
+            params.append(f'%{category_filter}%')
+        cursor.execute(query, params)
+        records = cursor.fetchall()
+        connection.close()
+        self.tableWidget.setRowCount(0)
+        for row_number, row_data in enumerate(records):
+            self.tableWidget.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                if column_number in [5, 7]:
+                    data = datetime.datetime.strptime(data, '%m/%d/%Y').strftime('%m/%d/%Y')
+                self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+
+
+    def reset_search_fields(self):
+        self.searchBarField.clear()
+        self.categoryBarField.clear()
+        self.display_records()
