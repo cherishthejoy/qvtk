@@ -215,6 +215,7 @@ class SecondTab(QtWidgets.QWidget):
     def button_clearance(self):
         self.insertButton.clicked.connect(self.add_record)
         self.deleteButton.clicked.connect(self.deleted_selected_row)
+        self.updateButton.clicked.connect(self.update_record)
 
 
     def display_records(self):
@@ -280,3 +281,38 @@ class SecondTab(QtWidgets.QWidget):
             self.fields['Price'][1].setText(self.tableWidget.item(row, 12).text())
             self.fields['Stock'][1].setText(self.tableWidget.item(row, 13).text())
             self.synopsisBox.setText(self.tableWidget.item(row, 14).text())
+
+    def update_record(self):
+        selected_items = self.tableWidget.selectedItems()
+        if not selected_items:
+            return
+        
+        row = selected_items[0].row()
+        isbn = self.tableWidget.item(row, 3).text()
+
+        new_data = [
+            field.currentText() if isinstance(field, QtWidgets.QComboBox) 
+            else field.toPlainText() if isinstance(field, QtWidgets.QTextEdit)
+            else field.dateTime().toString("MM/dd/yyyy") if isinstance(field, QtWidgets.QDateEdit)
+            else field.text()
+            for _, (_, field) in self.fields.items()
+        ]
+        
+        new_synopsis = self.synopsisBox.toPlainText()
+        new_data.append(new_synopsis)
+
+        connection = connect_db()
+        cursor = connection.cursor()
+        
+        cursor.execute('''
+            UPDATE book_info
+            SET Title=?, Author=?, Language=?, ISBN=?, Publisher=?, Published_Date=?, Page_Count=?, 
+                Print_Date=?, Category=?, Cover_Type=?, License=?, Dimension=?, Price=?, Stock=?, Synopsis=?
+            WHERE ISBN=?
+        ''', (*new_data, isbn))
+
+        connection.commit()
+        connection.close()
+
+        self.display_records()
+        self.tabOne.display_records()

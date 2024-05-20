@@ -26,6 +26,8 @@ class FirstTab(QtWidgets.QWidget):
         self.display_records()
 
         self.tableWidget.itemSelectionChanged.connect(self.update_line_edits)
+        self.tableWidget.itemSelectionChanged.connect(self.update_vtk_text)
+        self.searchButton.clicked.connect(self.search_records)
 
 
     def setupGrids(self):
@@ -66,8 +68,8 @@ class FirstTab(QtWidgets.QWidget):
         self.inspectGroup.setLayout(self.inspectHorizontalLayout)
 
 
-        self.bookID = QtWidgets.QLabel()
-        self.bookID.setText("Book Id")
+        # self.bookID = QtWidgets.QLabel()
+        # self.bookID.setText("Book Id")
 
         self.bookISBN = QtWidgets.QLabel()
         self.bookISBN.setText("Book ISBN")
@@ -98,7 +100,7 @@ class FirstTab(QtWidgets.QWidget):
 
 
 
-        self.vtkFormLayout.addRow(self.bookID, self.bookIDField)
+        # self.vtkFormLayout.addRow(self.bookID, self.bookIDField)
         self.vtkFormLayout.addRow(self.bookISBN, self.bookISBNField)
         self.vtkFormLayout.addRow(self.bookPrice, self.bookPriceField)
         self.vtkFormLayout.addRow(self.bookStock, self.stockField)
@@ -219,6 +221,8 @@ class FirstTab(QtWidgets.QWidget):
 
         #SearchGroup
 
+        categoryList = ["None", "Adventure", "Action", "Horror", "Sci-fi", "Romance", "Literature"]
+
         self.searchBar = QtWidgets.QLabel()
         self.searchBar.setText("Search")
 
@@ -228,9 +232,9 @@ class FirstTab(QtWidgets.QWidget):
         self.categoryBar = QtWidgets.QLabel()
         self.categoryBar.setText("Filter/Category")
 
-        self.categoryBarField = QtWidgets.QLineEdit()
+        self.categoryBarField = QtWidgets.QComboBox()
         self.categoryBarField.setObjectName("categoryField")
-
+        self.categoryBarField.addItems(categoryList)
 
         self.searchBarLayout = QtWidgets.QHBoxLayout()
         self.searchBarLayout.setAlignment(QtCore.Qt.AlignTop)
@@ -299,7 +303,6 @@ class FirstTab(QtWidgets.QWidget):
 
 
         self.textActor = vtk.vtkTextActor()
-        self.textActor.SetInput("The King in Yellow")
         self.textActor.GetTextProperty().SetFontSize(10)
         self.textActor.GetTextProperty().SetColor(1, 1, 1)
 
@@ -315,6 +318,17 @@ class FirstTab(QtWidgets.QWidget):
         self.renderWindowInteractor.SetInteractorStyle(style)
 
         self.renderWindowInteractor.Initialize()
+
+
+    def update_vtk_text(self):
+
+        selected_row = self.tableWidget.currentRow()
+        if selected_row >= 0:
+            book_title = self.tableWidget.item(selected_row, 0).text()
+            self.textActor.SetInput(book_title)
+            self.renderer.ResetCamera()
+            self.renderWindowInteractor.Render()
+
 
     def display_records(self):
 
@@ -354,3 +368,34 @@ class FirstTab(QtWidgets.QWidget):
             self.bookPriceField.setText(self.tableWidget.item(row, 12).text())
             self.stockField.setText(self.tableWidget.item(row, 13).text())
             self.synopsisLabel.setText(self.tableWidget.item(row, 14).text())
+
+
+    def search_records(self):
+        search_query = self.searchBarField.text().lower()
+        category_filter = self.categoryBarField.currentText().lower()
+        keyword_search = self.keywordCheck.isChecked()
+
+        connection = connect_db()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM book_info WHERE LOWER(title) LIKE ?'
+        params = [f'%{search_query}%']
+
+        if category_filter and category_filter != 'none':
+            query += ' AND LOWER(category) LIKE ?'
+            params.append(f'%{category_filter}%')
+
+        if keyword_search:
+            query += ' OR LOWER(synopsis) LIKE ?'
+            params.append(f'%{search_query}%')
+
+        cursor.execute(query, params)
+        records = cursor.fetchall()
+        connection.close()
+
+        self.tableWidget.setRowCount(0)
+        for row_number, row_data in enumerate(records):
+            self.tableWidget.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+        self.tableWidget.hideColumn(self.tableWidget.columnCount() - 1)
