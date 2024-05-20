@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from database import connect_db, insert_data
-from tab_one import FirstTab
+import datetime
 
 class SecondTab(QtWidgets.QWidget):
 
@@ -14,6 +14,8 @@ class SecondTab(QtWidgets.QWidget):
         self.display_records()
 
         self.tabOne = tabOne
+
+        self.tableWidget.itemSelectionChanged.connect(self.update_line_edits)
 
     
     def setupGridLayout(self):
@@ -85,6 +87,8 @@ class SecondTab(QtWidgets.QWidget):
                 field.addItems(LicenseList)
             elif object_name in ["bookPublishedDateField", "bookPrintDateField"]:
                 field = QtWidgets.QDateEdit()
+                field.setDisplayFormat("MM/dd/yyyy")
+                field.setCalendarPopup(True)
             else:
                 field = QtWidgets.QLineEdit()
 
@@ -118,7 +122,7 @@ class SecondTab(QtWidgets.QWidget):
 
         #Table Group
 
-        self.tableWidget = QtWidgets.QTableWidget(20, 14)
+        self.tableWidget = QtWidgets.QTableWidget(20, 15)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.tableWidget.setHorizontalHeaderLabels(["Title", "Author", "Language", "ISBN",
                                                     "Publisher", "Published Date", "Page Count", "Print Date",
@@ -177,8 +181,16 @@ class SecondTab(QtWidgets.QWidget):
 
     def add_record(self):
 
-        data = tuple(field.currentText() if isinstance(field, QtWidgets.QComboBox) else field.text()
-        for _, (_, field) in self.fields.items())
+        data = tuple(
+            field.currentText() if isinstance(field, QtWidgets.QComboBox) 
+            else field.toPlainText() if isinstance(field, QtWidgets.QTextEdit)
+            else field.dateTime().toString("MM/dd/yyyy") if isinstance(field, QtWidgets.QDateTimeEdit)
+            else field.text()
+            for _, (_, field) in self.fields.items()
+        )
+
+        synopsis = self.synopsisBox.toPlainText()
+        data += (synopsis,)
 
         connection = connect_db()
         cursor = connection.cursor()
@@ -192,10 +204,17 @@ class SecondTab(QtWidgets.QWidget):
         # Clear
 
         for _, (_, field) in self.fields.items():
-            field.clear()
+            if isinstance(field, QtWidgets.QLineEdit) or isinstance(field, QtWidgets.QTextEdit):
+                field.clear()
+            elif isinstance(field, QtWidgets.QComboBox):
+                field.setCurrentIndex(0)
+            elif isinstance(field, QtWidgets.QDateEdit):
+                field.setDate(QtCore.QDate.currentDate())
+        self.synopsisBox.clear()
 
     def button_clearance(self):
         self.insertButton.clicked.connect(self.add_record)
+        self.deleteButton.clicked.connect(self.deleted_selected_row)
 
 
     def display_records(self):
@@ -211,4 +230,53 @@ class SecondTab(QtWidgets.QWidget):
         for row_number, row_data in enumerate(records):
             self.tableWidget.insertRow(row_number)
             for column_number, data in enumerate(row_data):
+                if column_number in [5, 7]:
+                    data = datetime.datetime.strptime(data, '%m/%d/%Y').strftime('%m/%d/%Y')
                 self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+
+
+    def deleted_selected_row(self):
+        selected_items = self.tableWidget.selectedItems()
+        if selected_items:
+            row = selected_items[0].row()
+
+            rowid_item = self.tableWidget.item(row, 3)
+            if rowid_item is not None:
+                rowid = rowid_item.text()
+
+                connection = connect_db()
+                cursor = connection.cursor()
+                cursor.execute('DELETE FROM book_info WHERE ISBN = ?', (rowid,))
+                connection.commit()
+                connection.close()
+
+                self.tableWidget.removeRow(row)
+                self.tabOne.display_records()
+
+
+    def update_line_edits(self):
+        selected_items = self.tableWidget.selectedItems()
+        if selected_items:
+            row = selected_items[0].row()
+
+            published_date_str = self.tableWidget.item(row, 5).text()
+            print_date_str = self.tableWidget.item(row, 7).text()
+
+            published_date = QtCore.QDate.fromString(published_date_str, 'MM/dd/yyyy')
+            print_date = QtCore.QDate.fromString(print_date_str, 'MM/dd/yyyy')
+            
+            self.fields['Title'][1].setText(self.tableWidget.item(row, 0).text())
+            self.fields['Author'][1].setText(self.tableWidget.item(row, 1).text())
+            self.fields['Language'][1].setCurrentText(self.tableWidget.item(row, 2).text())
+            self.fields['ISBN'][1].setText(self.tableWidget.item(row, 3).text())
+            self.fields['Publisher'][1].setText(self.tableWidget.item(row, 4).text())
+            self.fields['Published Date'][1].setDate(published_date)
+            self.fields['Page Count'][1].setText(self.tableWidget.item(row, 6).text())
+            self.fields['Print Date'][1].setDate(print_date)
+            self.fields['Category'][1].setCurrentText(self.tableWidget.item(row, 8).text())
+            self.fields['Cover Type'][1].setCurrentText(self.tableWidget.item(row, 9).text())
+            self.fields['License'][1].setCurrentText(self.tableWidget.item(row, 10).text())
+            self.fields['Dimension'][1].setText(self.tableWidget.item(row, 11).text())
+            self.fields['Price'][1].setText(self.tableWidget.item(row, 12).text())
+            self.fields['Stock'][1].setText(self.tableWidget.item(row, 13).text())
+            self.synopsisBox.setText(self.tableWidget.item(row, 14).text())

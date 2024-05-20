@@ -1,8 +1,12 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont, QFontDatabase
 import sys
+import os
 import sqlite3
 import qdarktheme
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 from menubar import MenuBar
 from tab_one import FirstTab
@@ -20,7 +24,10 @@ class MainWindow(QtWidgets.QMainWindow):
          
         super().__init__()
 
-        self.conn = sqlite3.connect('ishtar.db')
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(current_dir, 'ishtar.db')
+
+        self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         self.cursor.execute("SELECT * FROM book_info")
     
@@ -49,7 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
             fontFamily = QFontDatabase.applicationFontFamilies(fontId)
             if fontFamily:
                 self.FONT = QFont(fontFamily[0], 10)
-                self.centralWidget.setFont(self.FONT)
+                self.tabOne.setFont(self.FONT)
 
 
     def refresh_tables(self):
